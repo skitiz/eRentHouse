@@ -1,5 +1,6 @@
 package com.aku.cogent.services;
 
+import com.aku.cogent.model.RealEstate;
 import com.aku.cogent.model.User;
 import com.aku.cogent.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,4 +29,5 @@ public class UserService {
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
+
 }

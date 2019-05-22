@@ -38,4 +38,12 @@ public class RealEstateService {
         realEstateRepository.deleteById(id);
     }
 
+    public List<RealEstate> findByStateOrCity(String city, String state) {
+        return realEstateRepository.findByCityOrState(city, state);
+    }
+
+    public List<RealEstate> findByPriceBetween(Long min, Long max) {
+        return realEstateRepository.findByPriceBetween(min, max);
+    }
+
 }

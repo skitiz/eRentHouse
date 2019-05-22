@@ -110,32 +110,17 @@ public class RealEstateAPI {
     }
 
     // Find houses by city name.
-    @GetMapping("/homes/city/{city}")
-    public ResponseEntity<List<RealEstate>> getCities(@PathVariable String city) {
-        List<RealEstate> realEstates = realEstateService.findAll().stream()
-                .filter(house -> house.getCity().equalsIgnoreCase(city))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(realEstates);
+    @GetMapping("/homes/place/{place}")
+    public ResponseEntity<List<RealEstate>> getCities(@PathVariable String place) {
+        return ResponseEntity.ok(realEstateService.findByStateOrCity(place, place));
     }
 
     // Get houses by price.
-    @GetMapping("/homes/price/{price}")
-    public ResponseEntity<List<RealEstate>> getPrice(@PathVariable Long price) {
-        List<RealEstate> realEstates = realEstateService.findAll().stream()
-                .filter(house -> house.getPrice().equals(price))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(realEstates);
+    @GetMapping("/homes/price/{min}/and/{max}")
+    public ResponseEntity<List<RealEstate>> getPrice(@PathVariable Long min, @PathVariable Long max) {
+        return ResponseEntity.ok(realEstateService.findByPriceBetween(min, max));
     }
-
-    // Get houses by state.
-    @GetMapping("/homes/price/{state}")
-    public ResponseEntity<List<RealEstate>> getStates(@PathVariable String state) {
-        List<RealEstate> realEstates = realEstateService.findAll().stream()
-                .filter(house -> house.getState().equalsIgnoreCase(state))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(realEstates);
-    }
-
+    
     //Delete a house from a user.
     @DeleteMapping("/{id}/homes/{houseId}")
     public void deleteHouse(@PathVariable Long id, @PathVariable Long houseId) {
