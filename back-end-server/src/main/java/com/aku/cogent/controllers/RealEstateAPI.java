@@ -120,7 +120,7 @@ public class RealEstateAPI {
     public ResponseEntity<List<RealEstate>> getPrice(@PathVariable Long min, @PathVariable Long max) {
         return ResponseEntity.ok(realEstateService.findByPriceBetween(min, max));
     }
-    
+
     //Delete a house from a user.
     @DeleteMapping("/{id}/homes/{houseId}")
     public void deleteHouse(@PathVariable Long id, @PathVariable Long houseId) {

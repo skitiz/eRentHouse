@@ -70,6 +70,11 @@ public class UserAPI {
         return ResponseEntity.ok(user.get());
     }
 
+    @GetMapping("/user/{username}/and/{password}") 
+    public ResponseEntity findByUsernameAndPassword(@PathVariable String username, @PathVariable String password) {
+        return ResponseEntity.ok(userService.findUser(username, password));
+    }
+
     @PostMapping("/user/{id}")
     public ResponseEntity<User> update(@PathVariable Long id, @Valid @PathVariable
             User user) {
