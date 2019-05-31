@@ -1,13 +1,15 @@
 import React from "react";
 import axios from "axios";
-import render from 'react-router-dom';
+import render, {Redirect} from 'react-router-dom';
 
 export class UserLogin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            toUserDetails: false,
+            data: []
         };
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -17,23 +19,11 @@ export class UserLogin extends React.Component {
         this.setState( {[target.name]: target.value });
     };
 
-    handleClick(event){
+    
+
+    handleClick = (event) => {
         event.preventDefault();
-        let apiBaseUrl = "http://localhost:8080/api/user/";
-        let self = this;
-        let payload = {
-            "password": this.state.password,
-            "username": this.state.username
-        };
-        let url = this.state.username + '/and/' + this.state.password;
-        axios.get('http://localhost:8080/api/user/' + url).then(
-            function (response) {
-                console.log(response);
-                console.log(self.state.username);
-                console.log(self.state.password);
-                console.log(response.data);
-            }
-    );
+        this.props.onLogin(this.state.username, this.state.password);
     };
 
 
