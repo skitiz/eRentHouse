@@ -5,6 +5,7 @@ import {Route, Switch, withRouter} from "react-router-dom";
 import {User} from "./components/User";
 // import {getCurrentUser} from './components/Functions'
 import axios from 'axios';
+import { Container } from 'semantic-ui-react';
 
 
 class App extends React.Component {
@@ -46,7 +47,8 @@ class App extends React.Component {
         let url = username + '/and/' + password;
         axios.get('http://localhost:8080/api/user/' + url).then(
              (response) => {
-                 this.setState({data: response.data})
+                 this.setState({data: response.data});
+                 this.setState({isAuthenticated: true});
              }).catch ((error) => {
                  console.log(error)
                 });
@@ -60,8 +62,17 @@ class App extends React.Component {
     }
 
 
+    onMenuClick = () => {
+        this.props.history.push("/user");
+    }
+
+
+
+
     render() {
         return (
+            <div>
+                <Container>
                 <Switch>
                     <Route exact path="/"
                     render = 
@@ -73,6 +84,9 @@ class App extends React.Component {
                     }>
                     </Route>
                 </Switch>
+                </Container>
+                </div>
+                
         );
     }
 }
