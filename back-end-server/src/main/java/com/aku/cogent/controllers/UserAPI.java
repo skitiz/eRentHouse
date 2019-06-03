@@ -71,8 +71,14 @@ public class UserAPI {
     }
 
     @GetMapping("/user/{username}/and/{password}")
-    public User findByUsernameAndPassword(@PathVariable String username, @PathVariable String password) {
-        return userService.findUser(username, password);
+    public ResponseEntity<User> findByUsernameAndPassword(@PathVariable String username, @PathVariable String password) {
+        User user = userService.findUser(username, password);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        }
+        else
+            return ResponseEntity.badRequest().build();
+
     }
 
     @PostMapping("/user/{id}")
