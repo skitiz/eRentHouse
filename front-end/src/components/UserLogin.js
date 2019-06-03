@@ -18,19 +18,21 @@ export class UserLogin extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange = ({target}) => {
-        this.setState( {[target.name]: target.value });
+    handleChange = (e, data) => {
+        // this.setState({value})
+        this.setState({[e.target.name]: e.target.value});
     };
 
     
 
     handleClick = (event) => {
-        event.preventDefault();
+        event.preventDefault(); 
         this.props.onLogin(this.state.username, this.state.password);
     };
 
 
     render() {
+        const { value } = this.state;
         return (
             // <div className="wrapper fadeInDown">
             //     <div id="formContent">
@@ -58,17 +60,22 @@ export class UserLogin extends React.Component {
                     </Header>
                     <Form size='large'>
                         <Segment stacked>
-                            <Form.Input fluid icon='user' 
+                            <Form.Input fluid icon='user'  
+                            name="username"
                             iconPosition='left' 
                             placeholder='Username'
-                            onChange={this.handleChange} />
+                            onChange={this.handleChange}
+                            // value = {value}
+                             />
                             <Form.Input
                                 fluid
+                                name="password"
                                 icon='lock'
                                 iconPosition='left'
                                 placeholder='Password'
                                 type='password'
                                 onChange={this.handleChange}
+                                // value = {value}
                                 />
                             <Button.Group>
                                 <Button onClick={ (event) => this.handleClick(event) }>Login</Button>
