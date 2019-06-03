@@ -47,7 +47,9 @@ class App extends React.Component {
         axios.get('http://localhost:8080/api/user/' + url).then(
              (response) => {
                  this.setState({data: response.data})
-             });
+             }).catch ((error) => {
+                 console.log(error)
+                });
     }
 
 
@@ -65,7 +67,10 @@ class App extends React.Component {
                     render = 
                     {(props) => <UserLogin onLogin={this.handleLogin} {...props} />}>
                     </Route>
-                    <Route path="/user" component={User}>
+                    <Route path="/user" render = {
+                        (props) => <User username={this.state.username} password={this.state.password}
+                        {...props}/>
+                    }>
                     </Route>
                 </Switch>
         );
