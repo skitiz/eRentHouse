@@ -3,7 +3,7 @@ import './App.css';
 import {UserLogin} from './components/UserLogin';
 import {Route, Switch, withRouter} from "react-router-dom";
 import {User} from "./components/User";
-import {getCurrentUser} from './components/Functions'
+// import {getCurrentUser} from './components/Functions'
 import axios from 'axios';
 
 
