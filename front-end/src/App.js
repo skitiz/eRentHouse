@@ -6,6 +6,7 @@ import {User} from "./components/User";
 // import {getCurrentUser} from './components/Functions'
 import axios from 'axios';
 import { Container } from 'semantic-ui-react';
+import { Register } from './components/Register'
 
 
 class App extends React.Component {
@@ -59,14 +60,30 @@ class App extends React.Component {
     handleLogin = (username, password) => {
         this.loadCurrentUser(username, password);
         this.props.history.push("/user");
-    }
+    };
 
 
     onMenuClick = () => {
         this.props.history.push("/user");
+    };
+
+    //
+    // Handles registration of the user.
+    //
+    handleRegister = (username, password, email, name, ho) => {
+        
+        axios.post('http://localhost:8080/api/user', {
+            name: name,
+            username: username,
+            email: email,
+            password: password,
+            type: ho
+        }).then( response => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        })
     }
-
-
 
 
     render() {
@@ -76,13 +93,17 @@ class App extends React.Component {
                 <Switch>
                     <Route exact path="/"
                     render = 
-                    {(props) => <UserLogin onLogin={this.handleLogin} {...props} />}>
+                    {(props) => <UserLogin onLogin={this.handleLogin}  onRegister = 
+                    {this.handleRegister}  {...props} />}>
                     </Route>
                     <Route path="/user" render = {
                         (props) => <User username={this.state.username} password={this.state.password}
                         {...props}/>
                     }>
                     </Route>
+                    <Route path ="/register" render= {
+                        (props) => <Register registerUser={this.handleRegister} {...props}/>
+                    }></Route>
                 </Switch>
                 </Container>
                 </div>

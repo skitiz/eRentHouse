@@ -28,14 +28,14 @@ public class UserAPI {
     }
 
     @PostMapping("/user")
-    public ResponseEntity create(@Valid @RequestBody User user) {
+    public ResponseEntity create(@Valid @RequestBody User user) {String text = "Your account has been activated \n Please set your password" +
+//                 "on the link below: \n http:localhost:8080/user/password" +
+//                 "/" + user.getId();
+//        emailService.sendSimpleMessage(user.getEmail(),
+//                "Account Activation",
+//                text);
         userService.save(user);
-         String text = "Your account has been activated \n Please set your password" +
-                 "on the link below: \n http:localhost:8080/user/password" +
-                 "/" + user.getId();
-        emailService.sendSimpleMessage(user.getEmail(),
-                "Account Activation",
-                text);
+//
         return ResponseEntity.ok("Your account has been created.");
     }
 

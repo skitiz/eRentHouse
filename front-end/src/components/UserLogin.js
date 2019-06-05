@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import { Register } from './Register'
 
 export class UserLogin extends React.Component {
     constructor(props) {
@@ -8,7 +9,9 @@ export class UserLogin extends React.Component {
             username: '',
             password: '',
             toUserDetails: false,
-            data: []
+            data: [],
+            isRegister: false,
+            isTrue: true
         };
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -25,6 +28,23 @@ export class UserLogin extends React.Component {
         event.preventDefault(); 
         this.props.onLogin(this.state.username, this.state.password);
     };
+
+    
+    //
+    // Passes the register details from register component back to App.js
+    //
+    registerUser = (username, password, email, name, ho) => {
+        this.props.onRegister(username,
+            password,
+            email,
+            name,
+            ho);
+    }
+
+    
+    handleRegister = () => {
+        this.props.history.push("/register");
+    }
 
 
     render() {
@@ -56,7 +76,7 @@ export class UserLogin extends React.Component {
                             <Button.Group>
                                 <Button onClick={ (event) => this.handleClick(event) }>Login</Button>
                                 <Button.Or />
-                                <Button positive>Register</Button>
+                                <Button onClick={ this.handleRegister } >Register</Button>
                             </Button.Group>
                         </Segment>
                     </Form>

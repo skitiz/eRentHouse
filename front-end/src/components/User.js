@@ -41,6 +41,7 @@ export class User extends React.Component {
         this.props.history.push("/user");
     }
 
+
     onButtonClick = () => {
         axios.get('http://localhost:8080/api/homes/' + this.state.id).then(
             (response) => {
@@ -77,15 +78,6 @@ export class User extends React.Component {
         
         return(
             <div>
-                <Menu fixed = 'top' inverted>
-                <Container>
-                    <Menu.Item as='a' header>
-                        eRentHouseApplication
-                    </Menu.Item>
-                    <Menu.Item as='a' onClick={this.onMenuClick}>Home</Menu.Item>
-                </Container>
-                </Menu>
-
                 <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
                     <Grid.Column style = {{ maxWidth: 900 }}>
                         <Header as='h2' color='teal' textAlign='center'>
@@ -113,14 +105,6 @@ export class User extends React.Component {
     render() {
         var userdetails = (
             <div>
-        <Menu fixed = 'top' inverted>
-                    <Container>
-                        <Menu.Item as='a' header>
-                            eRentHouseApplication
-                        </Menu.Item>
-                            <Menu.Item as='a' onClick={this.onMenuClick}>Home</Menu.Item>
-                    </Container>
-        </Menu>
           <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
               <Grid.Column style = {{ maxWidth: 900 }}>
               <Header as='h2' color='teal' textAlign='center'>
@@ -151,8 +135,18 @@ export class User extends React.Component {
 
         return (
             <div>
+            <Menu fixed = 'top' inverted>
+                    <Container>
+                        <Menu.Item as='a' header>
+                            eRentHouseApplication
+                        </Menu.Item>
+                            <Menu.Item as='a' onClick={this.onMenuClick}>Home</Menu.Item>
+                    </Container>
+            </Menu>
+            <div>
             {this.state.isLogin ? userdetails : false}
             {this.state.isProperty ? this.propertyPage() : false}
+            </div>
             </div>
         );
     }
