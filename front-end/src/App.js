@@ -7,6 +7,7 @@ import {User} from "./components/User";
 import axios from 'axios';
 import { Container } from 'semantic-ui-react';
 import { Register } from './components/Register'
+import { Admin } from './components/Admin'
 
 
 class App extends React.Component {
@@ -80,9 +81,36 @@ class App extends React.Component {
             type: ho
         }).then( response => {
             console.log(response);
+            this.setState({username: username});
+            this.setState({password: password});
+            this.props.history.push("/user");
+
         }).catch(error => {
             console.log(error);
         })
+    }
+
+    //
+    // Gets data from admin login page and lets admins login.
+    //
+    isAdmin = (username, password) => {
+        if(username === 'x' && password === 'x') {
+            let url = username + '/and/' + password;
+            console.log(url);
+        axios.get('http://localhost:8080/api/user/' + url).then(
+            response => {
+                console.log(response.data);
+                alert('Welcome back Mr. Stark.');
+            })
+            .catch( error => {
+                alert('Invalid login credentials for admin.')
+                console.log(error.response);
+            });
+        }
+        else {
+            alert('Invalid credentials');
+        }
+        
     }
 
 
@@ -104,6 +132,11 @@ class App extends React.Component {
                     <Route path ="/register" render= {
                         (props) => <Register registerUser={this.handleRegister} {...props}/>
                     }></Route>
+                    <Route>
+                        <Route path ="/admin" render = {
+                            (props) => <Admin adminLogin = {this.isAdmin} {...props} />
+                        }></Route>
+                    </Route>
                 </Switch>
                 </Container>
                 </div>

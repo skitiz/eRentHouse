@@ -1,60 +1,38 @@
-import React from "react";
-import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import React from 'react';
+import { Header, Form, Segment, Button, Grid } from 'semantic-ui-react'
 
-export class UserLogin extends React.Component {
+export class Admin extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
             username: '',
-            password: '',
-            toUserDetails: false,
-            data: [],
-            isRegister: false,
-            isTrue: true
-        };
-        this.handleClick = this.handleClick.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+            password: ''
+        }
     }
 
+    //
+    //  Captures values from the form login for admin
+    //
     handleChange = (e, data) => {
-        // this.setState({value})
         this.setState({[e.target.name]: e.target.value});
     };
 
-    
-
+    //
+    //  Sends value back to App.js for evaluation and admin login.
+    //
     handleClick = (event) => {
-        event.preventDefault(); 
-        this.props.onLogin(this.state.username, this.state.password);
-    };
-
-    
-    //
-    // Passes the register details from register component back to App.js
-    //
-    registerUser = (username, password, email, name, ho) => {
-        this.props.onRegister(username,
-            password,
-            email,
-            name,
-            ho);
-    }
-
-
-    //
-    // Redirects to the React Register component.
-    //
-    handleRegister = () => {
-        this.props.history.push("/register");
+        this.props.adminLogin(this.state.username, this.state.password)
     }
 
 
     render() {
-        return (
+
+        return(
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style = {{ maxWidth: 450 }}>
                     <Header as='h2' color='teal' textAlign='center'>
-                        Login To Your Account
+                        Admin Login
                     </Header>
                     <Form size='large'>
                         <Segment stacked>
@@ -77,8 +55,6 @@ export class UserLogin extends React.Component {
                                 />
                             <Button.Group>
                                 <Button onClick={ (event) => this.handleClick(event) }>Login</Button>
-                                <Button.Or />
-                                <Button onClick={ this.handleRegister } >Register</Button>
                             </Button.Group>
                         </Segment>
                     </Form>
