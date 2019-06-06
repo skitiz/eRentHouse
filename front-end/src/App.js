@@ -61,7 +61,12 @@ class App extends React.Component {
     // Callback function.
     handleLogin = (username, password) => {
         this.loadCurrentUser(username, password);
-        this.props.history.push("/user");
+        this.props.history.push({
+            pathname: "/user",
+        state: {
+            isLogin: true,
+            isProperty: false
+        }});
     };
 
 

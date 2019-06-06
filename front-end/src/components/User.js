@@ -25,9 +25,20 @@ class User extends React.Component {
 
     componentWillMount = () =>
     {
-        // this.setState({isLogin : this.props.location.state.isLogin});
-        // this.setState({isProperty: this.props.location.state.isProperty});
-        let url = this.props.username + '/and/' + this.props.password;
+        if(this.props.location.state) {
+            this.setState({isLogin : this.props.location.state.isLogin});
+            this.setState({isProperty: this.props.location.state.isProperty});
+        };
+        console.log("first")
+        if(localStorage.getItem("username") === null){
+            localStorage.setItem("username", this.props.username);
+            localStorage.setItem("password", this.props.password);
+        }
+    }
+
+    componentDidMount = () => {
+        let url = localStorage.getItem("username") + '/and/' + localStorage.getItem('password');
+        console.log(url);
         axios.get('http://localhost:8080/api/user/' + url).then(
              (response) => {
                  this.setState({data: response.data})
@@ -231,4 +242,4 @@ class User extends React.Component {
     }
 }
 
-export default withRouter(User);
+export default User;
