@@ -53,11 +53,11 @@ export class UserLogin extends React.Component {
         return (
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style = {{ maxWidth: 450 }}>
-                    <Header as='h2' color='teal' textAlign='center'>
+                    <Header as='h2' color='dark_blue' textAlign='center'>
                         Login To Your Account
                     </Header>
                     <Form size='large'>
-                        <Segment stacked>
+                        <Segment  stacked>
                             <Form.Input fluid icon='user'  
                             name="username"
                             iconPosition='left' 

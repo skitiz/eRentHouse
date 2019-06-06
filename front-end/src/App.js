@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Container } from 'semantic-ui-react';
 import { Register } from './components/Register'
 import { Admin } from './components/Admin'
+import {LandingPage} from './components/LandingPage'
 
 
 class App extends React.Component {
@@ -119,7 +120,12 @@ class App extends React.Component {
             <div>
                 <Container>
                 <Switch>
-                    <Route exact path="/"
+                    <Route exact path= "/"
+                    render = {
+                        (props) => <LandingPage {...props}/>
+                    }>
+                    </Route>
+                    <Route path="/login"
                     render = 
                     {(props) => <UserLogin onLogin={this.handleLogin}  onRegister = 
                     {this.handleRegister}  {...props} />}>
