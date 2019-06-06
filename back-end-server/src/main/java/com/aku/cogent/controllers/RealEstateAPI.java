@@ -55,6 +55,8 @@ public class RealEstateAPI {
     }
 
 
+
+
     // Create a new real estate entity.
     @PostMapping("/homes/{id}")
     public RealEstate createHouse(@RequestBody @Valid RealEstate realEstate, @PathVariable Long id) {
@@ -77,7 +79,7 @@ public class RealEstateAPI {
             realEstate.setHomeOwner(user);
             return realEstateService.createHome(realEstate);
         });
-        return new RealEstate();
+        return realEstate;
     }
 
 

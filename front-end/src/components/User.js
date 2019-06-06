@@ -1,25 +1,32 @@
 import React from 'react';
 import axios from 'axios';
-import { Grid, Table, Button, Header, Menu, Container, Card, Image } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
+import { Grid, Table, Button, Header, Menu, Container, Card, Image, Modal, Form } from 'semantic-ui-react';
 
-export class User extends React.Component {
+class User extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             data: '',
             realEstate: '',
             homeOwner: '',
+            streetAddress: '',
             id: '',
             isLogin: true,
             isProperty: false,
-            images: []
+            images: [],
+            city: '',
+            state: '',
+            price: ''
         };
 
         this.onButtonClick = this.onButtonClick.bind(this);
     }
 
-    componentDidMount = () =>
+    componentWillMount = () =>
     {
+        // this.setState({isLogin : this.props.location.state.isLogin});
+        // this.setState({isProperty: this.props.location.state.isProperty});
         let url = this.props.username + '/and/' + this.props.password;
         axios.get('http://localhost:8080/api/user/' + url).then(
              (response) => {
@@ -29,8 +36,6 @@ export class User extends React.Component {
                      this.setState({homeOwner: 'True'});
                  }
                  console.log(this.state.realEstate);
-                 let result = this.state.realEstate.map( a => a.streetAddress);
-                 this.setState({realEstate: result});
                  this.setState({id: response.data.id})
              }).catch ( (error) => {
                  console.log(error)
@@ -42,12 +47,16 @@ export class User extends React.Component {
     }
 
 
+    //
+    // Load the houses from the back-end
+    // 
     onButtonClick = () => {
         axios.get('http://localhost:8080/api/homes/' + this.state.id).then(
             (response) => {
-                console.log(response.data);
+                console.log(JSON.stringify(response.data));
                 this.setState({isProperty: true});
                 this.setState({isLogin: false});
+                this.setState({realEstate: response.data})
             }).catch((error) => {
                 console.log(error);
             });
@@ -58,6 +67,9 @@ export class User extends React.Component {
         this.setState({isProperty: false});
     }
 
+    onHomeClick = () => {
+        this.props.history.push("/");
+    }
 
     imageUrls = () => {
         let url = "/images/" + this.state.id + "/";
@@ -71,10 +83,41 @@ export class User extends React.Component {
         return temp;
     }
 
+    //
+    //  Add new Property
+    //
+    handleNewProperty = (event) => {
+        this.props.addNewHouse(this.state.streetAddress,
+            this.state.state,
+            this.state.city,
+            this.state.property_type,
+            this.state.price,
+            this.state.id);
+    }
+
+    //
+    // Handle property type.
+    //
+    handleType = (e, {property_type}) => {
+        console.log(property_type);
+        this.setState({property_type});
+    }
+
+    //
+    // New Home Registration Page
+    //
+    handleChange = (e, data) => {
+        this.setState({[e.target.name]: e.target.value});
+    }
+
 
     propertyPage = () => {
         var images = this.imageUrls();
-        console.log(images);
+        const {property_type} = this.state;
+        this.state.realEstate.map(house => {
+            console.log(`/images/${house.id}/${house.images}.jpg`);
+        })
+        // console.log(images);
         
         return(
             <div>
@@ -83,18 +126,54 @@ export class User extends React.Component {
                         <Header as='h2' color='teal' textAlign='center'>
                         Properties
                     </Header>
-                    <div>
-                    { images.map(image => (
+                    <Grid.Row>
+                    { this.state.realEstate.map(house => (
+                        
                        <Card>
                         <Image floated = 'right' size = 'small'
-                                src= {image}/>
+                                src=  {`/images/${house.id}/${house.images}.jpg`} />
                         <Card.Content>
-                        <Card.Header>{this.state.realEstate}</Card.Header>
+                        <Card.Header>{house.streetAddress}</Card.Header>
+                        <Card.Meta>{house.city}, {house.state}</Card.Meta>
+                        <Card.Description>${house.price}</Card.Description>
                         </Card.Content>
                         </Card> 
                         ))
                     } 
-                        </div>
+                    </Grid.Row>
+                        <Modal trigger={<Button>Add a new House</Button>} size='small'>
+                            <Modal.Header>Add a new house</Modal.Header>
+                        <Modal.Content>
+                        <Form size='small'>
+                            <Form.Group>
+                                <Form.Input name="streetAddress" onChange = {this.handleChange}
+                                placeholder="Street Address" />
+                                <Form.Input name="city" placeholder="City"
+                                onChange = {this.handleChange} />
+                                <Form.Input name="state" placeholder="State"
+                                onChange={this.handleChange} />
+                                <Form.Input name="price" placeholder ="$"
+                                onChange={this.handleChange} />
+                            </Form.Group>
+                            <Form.Group inline>
+                                <Form.Radio
+                                label='Apartment'
+                                property_type = 'Apartment'
+                                checked={property_type === 'Apartment'}
+                                onChange={this.handleType}
+                                />
+                                <Form.Radio
+                                label='Townhouse'
+                                property_type= 'Townhouse'
+                                checked={property_type === 'Townhouse'}
+                                onChange={this.handleType}
+                                />
+                            </Form.Group>
+                            <Button onClick={ (event) => 
+                            this.handleNewProperty(event)}>Add Property</Button>
+                        </Form>
+                        </Modal.Content>
+                        </Modal>
                     <Button onClick={this.goHome}>Back</Button>
                     </Grid.Column>
                 </Grid>
@@ -137,7 +216,7 @@ export class User extends React.Component {
             <div>
             <Menu fixed = 'top' inverted>
                     <Container>
-                        <Menu.Item as='a' header>
+                        <Menu.Item as='a' header onClick={this.onHomeClick}>
                             eRentHouseApplication
                         </Menu.Item>
                             <Menu.Item as='a' onClick={this.onMenuClick}>Home</Menu.Item>
@@ -151,3 +230,5 @@ export class User extends React.Component {
         );
     }
 }
+
+export default withRouter(User);

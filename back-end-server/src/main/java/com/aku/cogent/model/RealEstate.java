@@ -4,6 +4,8 @@ package com.aku.cogent.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +17,19 @@ public class RealEstate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String streetAddress;
 
+    @NotNull
     private String property_type;
 
+    @NotNull
     private String state;
 
+    @NotNull
     private String city;
 
+    @NotNull
     private Long price;
 
     private ArrayList<String> images;

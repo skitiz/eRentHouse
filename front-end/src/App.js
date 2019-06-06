@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import {UserLogin} from './components/UserLogin';
 import {Route, Switch, withRouter} from "react-router-dom";
-import {User} from "./components/User";
+import User from "./components/User";
 // import {getCurrentUser} from './components/Functions'
 import axios from 'axios';
 import { Container } from 'semantic-ui-react';
@@ -84,7 +84,9 @@ class App extends React.Component {
             console.log(response);
             this.setState({username: username});
             this.setState({password: password});
-            this.props.history.push("/user");
+            this.props.history.push({
+                pathname: "/user",
+            state: {isLogin: true, isProperty: false}});
 
         }).catch(error => {
             console.log(error);
@@ -114,6 +116,35 @@ class App extends React.Component {
         
     }
 
+    //
+    // Create a new house
+    //
+    handleNewHome = (streetAddress, state, city, property_type, price, id) => {
+        axios.post('http://localhost:8080/api/homes/' + id, {
+            streetAddress: streetAddress,
+            state: state,
+            city: city,
+            property_type: property_type,
+            price: price
+        }).then( response => {
+            let post_id = response.data.id;
+            axios.post("http://localhost:8080/api/" + id + "/homes/" + post_id).then(
+                response => {
+                    alert("Successfully added a new house.")
+                    this.props.history.push({
+                        pathname: "/user",
+                        state: { isLogin: true, isProperty: false}
+                    })
+                }
+            ).catch(
+                error => {
+                    console.log(error.response);
+                    alert("Could not add property.");
+                }
+            )
+        })
+    }
+
 
     render() {
         return (
@@ -132,6 +163,7 @@ class App extends React.Component {
                     </Route>
                     <Route path="/user" render = {
                         (props) => <User username={this.state.username} password={this.state.password}
+                        addNewHouse = {this.handleNewHome}
                         {...props}/>
                     }>
                     </Route>

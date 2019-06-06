@@ -37,6 +37,13 @@ export class Register extends React.Component {
         this.props.registerPage(true);
     }
 
+    //
+    // Goes back to the Login page
+    //
+    onBack = (event) => {
+        this.props.history.push("/login");
+    }
+
 
     render() {
         return(
@@ -64,6 +71,7 @@ export class Register extends React.Component {
                     type = "password"
                     onChange = {this.handleChange} />
                     <Button onClick = {this.onRegister}>Submit</Button>
+                    <Button onClick = {this.onBack} floated="right">Back</Button>
                 </Segment>
             </Form>
         )
