@@ -140,8 +140,8 @@ class User extends React.Component {
                     <Grid.Row>
                     { this.state.realEstate.map(house => (
                         
-                       <Card>
-                        <Image floated = 'right' size = 'small'
+                       <Card size = 'small'>
+                        <Image size = 'small'
                                 src=  {`/images/${house.id}/${house.images}.jpg`} />
                         <Card.Content>
                         <Card.Header>{house.streetAddress}</Card.Header>
