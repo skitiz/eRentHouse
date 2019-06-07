@@ -192,6 +192,14 @@ class User extends React.Component {
         );
     }
 
+    //
+    // Handles Logout menu
+    //
+    onLogoutClick = () => {
+        localStorage.clear();
+        this.props.history.push("/");
+    }
+
     render() {
         var userdetails = (
             <div>
@@ -231,6 +239,7 @@ class User extends React.Component {
                             eRentHouseApplication
                         </Menu.Item>
                             <Menu.Item as='a' onClick={this.onMenuClick}>Home</Menu.Item>
+                            <Menu.Item as='a' position="right" onClick={this.onLogoutClick}>Logout</Menu.Item>
                     </Container>
             </Menu>
             <div>
