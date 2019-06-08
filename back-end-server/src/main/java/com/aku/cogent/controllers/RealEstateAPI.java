@@ -38,7 +38,7 @@ public class RealEstateAPI {
     /*
     * Get all houses.
     * */
-    @GetMapping("/homes/")
+    @GetMapping("/homes")
     public ResponseEntity<List> findAll() {
         return ResponseEntity.ok(realEstateService.findAll());
     }
@@ -53,6 +53,8 @@ public class RealEstateAPI {
                 (User::getRealEstate).orElseThrow(
                         () -> new ResourceNotFoundException("The homeowner does not have a house."));
     }
+
+
 
 
     // Create a new real estate entity.
@@ -77,7 +79,7 @@ public class RealEstateAPI {
             realEstate.setHomeOwner(user);
             return realEstateService.createHome(realEstate);
         });
-        return new RealEstate();
+        return realEstate;
     }
 
 
@@ -122,11 +124,9 @@ public class RealEstateAPI {
     }
 
     //Delete a house from a user.
-    @DeleteMapping("/{id}/homes/{houseId}")
-    public void deleteHouse(@PathVariable Long id, @PathVariable Long houseId) {
-        this.homeOwnerRepository.findById(id).map((home) -> {
-            return home.getRealEstate().removeIf(e -> e.getId().equals(houseId));
-        }).orElseThrow(() -> new ResourceNotFoundException("Deleted house."));
+    @DeleteMapping("/homes/{id}")
+    public void deleteHouse(@PathVariable Long id) {
+        this.realEstateService.deleteById(id);
     }
 
 }
