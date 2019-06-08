@@ -38,7 +38,7 @@ public class RealEstateAPI {
     /*
     * Get all houses.
     * */
-    @GetMapping("/homes/")
+    @GetMapping("/homes")
     public ResponseEntity<List> findAll() {
         return ResponseEntity.ok(realEstateService.findAll());
     }
