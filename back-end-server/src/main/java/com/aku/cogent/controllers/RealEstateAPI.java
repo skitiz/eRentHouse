@@ -124,11 +124,9 @@ public class RealEstateAPI {
     }
 
     //Delete a house from a user.
-    @DeleteMapping("/{id}/homes/{houseId}")
-    public void deleteHouse(@PathVariable Long id, @PathVariable Long houseId) {
-        this.homeOwnerRepository.findById(id).map((home) -> {
-            return home.getRealEstate().removeIf(e -> e.getId().equals(houseId));
-        }).orElseThrow(() -> new ResourceNotFoundException("Deleted house."));
+    @DeleteMapping("/homes/{id}")
+    public void deleteHouse(@PathVariable Long id) {
+        this.realEstateService.deleteById(id);
     }
 
 }

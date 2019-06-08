@@ -150,6 +150,17 @@ class App extends React.Component {
         })
     }
 
+    //
+    // Deletes the property from the user.
+    //
+    didDelete = (id) => {
+        console.log("http://localhost:8080/api/homes/" + id);
+        axios.delete("http://localhost:8080/api/homes/" + id)
+        .then(response => {
+            console.log("successfully deleted");
+        })
+    }
+
 
     render() {
         return (
@@ -169,6 +180,7 @@ class App extends React.Component {
                     <Route path="/user" render = {
                         (props) => <User username={this.state.username} password={this.state.password}
                         addNewHouse = {this.handleNewHome}
+                        onDelete = {this.didDelete}
                         {...props}/>
                     }>
                     </Route>

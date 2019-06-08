@@ -14,6 +14,13 @@ export class LandingPage extends React.Component {
         this.props.history.push("/login");
     }
 
+    //
+    // Fucks the user.
+    //
+    fuck = () => {
+        alert('Fuck Cogent');
+    }
+
     render() {
         return (
             <div className="App">
@@ -26,6 +33,7 @@ export class LandingPage extends React.Component {
                         <Menu.Item active>Home</Menu.Item>
                         <Menu.Item>Browse</Menu.Item>
                         <Menu.Item onClick={this.handleLogin}>Login</Menu.Item>
+                        <Menu.Item as='a' position="right" onClick={this.fuck}>Fuck</Menu.Item>
                     </Menu>
                 </Container>
                 <Container className="content">

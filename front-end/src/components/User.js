@@ -121,6 +121,12 @@ class User extends React.Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
+    //
+    //  Deletes the property from the properties page.
+    //
+    handleDelete = (id) => {
+        this.props.onDelete(id);
+    }
 
     propertyPage = () => {
         var images = this.imageUrls();
@@ -148,6 +154,7 @@ class User extends React.Component {
                         <Card.Meta>{house.city}, {house.state}</Card.Meta>
                         <Card.Description>${house.price}</Card.Description>
                         </Card.Content>
+                        <Button onClick={ () => { this.handleDelete(house.id) }}>Delete</Button>
                         </Card> 
                         ))
                     } 
@@ -199,6 +206,7 @@ class User extends React.Component {
         localStorage.clear();
         this.props.history.push("/");
     }
+    
 
     render() {
         var userdetails = (
