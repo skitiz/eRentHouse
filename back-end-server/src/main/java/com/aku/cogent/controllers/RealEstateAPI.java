@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -127,6 +128,24 @@ public class RealEstateAPI {
     @DeleteMapping("/homes/{id}")
     public void deleteHouse(@PathVariable Long id) {
         this.realEstateService.deleteById(id);
+    }
+
+    //
+    // Edits streetAddress for the house.
+    //
+    @PutMapping("/homes/{id}")
+    public ResponseEntity<RealEstate> updateStreetAddress(@PathVariable Long id, @RequestBody RealEstate realEstates){
+        Optional<RealEstate> realEstateOptional = realEstateService.findHomeById(id);
+
+        if (!realEstateOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        realEstates.setId(id);
+        realEstates.setImages(realEstateOptional.get().getImages());
+        realEstateService.createHome(realEstates);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

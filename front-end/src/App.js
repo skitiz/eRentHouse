@@ -153,11 +153,31 @@ class App extends React.Component {
     //
     // Deletes the property from the user.
     //
-    didDelete = (id) => {
+    didDeleteProperty = (id) => {
         console.log("http://localhost:8080/api/homes/" + id);
         axios.delete("http://localhost:8080/api/homes/" + id)
         .then(response => {
             console.log("successfully deleted");
+        })
+    }
+
+    //
+    // Did edit property.
+    //
+    didEditProperty = (streetAddress,
+        state,
+        city,
+        property_type,
+        price,
+        id) => {
+        axios.put('http://localhost:8080/api/homes/' + id, {
+            streetAddress: streetAddress,
+            state: state,
+            city: city,
+            property_type: property_type,
+            price: price
+        }).then( response => {
+            console.log("Property edited.");
         })
     }
 
@@ -180,7 +200,8 @@ class App extends React.Component {
                     <Route path="/user" render = {
                         (props) => <User username={this.state.username} password={this.state.password}
                         addNewHouse = {this.handleNewHome}
-                        onDelete = {this.didDelete}
+                        onDelete = {this.didDeleteProperty}
+                        onEdit = {this.didEditProperty}
                         {...props}/>
                     }>
                     </Route>

@@ -128,6 +128,21 @@ class User extends React.Component {
         this.props.onDelete(id);
     }
 
+    //
+    // Handles the edit of the property.
+    //
+    handleEdit = (event, id) => {
+        // this.props.onEdit(id);
+        event.preventDefault();
+        this.props.onEdit(this.state.streetAddress,
+            this.state.state,
+            this.state.city,
+            this.state.property_type,
+            this.state.price,
+            id);
+
+    }
+
     propertyPage = () => {
         var images = this.imageUrls();
         const {property_type} = this.state;
@@ -154,7 +169,42 @@ class User extends React.Component {
                         <Card.Meta>{house.city}, {house.state}</Card.Meta>
                         <Card.Description>${house.price}</Card.Description>
                         </Card.Content>
+                        <Button.Group>
                         <Button onClick={ () => { this.handleDelete(house.id) }}>Delete</Button>
+                        <Modal trigger={<Button>Edit</Button>} size='small'>
+                            <Modal.Header>Add a new house</Modal.Header>
+                        <Modal.Content>
+                        <Form size='small'>
+                            <Form.Group>
+                                <Form.Input name="streetAddress" onChange = {this.handleChange}
+                                placeholder="Street Address" />
+                                <Form.Input name="city" placeholder="City"
+                                onChange = {this.handleChange} />
+                                <Form.Input name="state" placeholder="State"
+                                onChange={this.handleChange} />
+                                <Form.Input name="price" placeholder ="$"
+                                onChange={this.handleChange} />
+                            </Form.Group>
+                            <Form.Group inline>
+                                <Form.Radio
+                                label='Apartment'
+                                property_type = 'Apartment'
+                                checked={property_type === 'Apartment'}
+                                onChange={this.handleType}
+                                />
+                                <Form.Radio
+                                label='Townhouse'
+                                property_type= 'Townhouse'
+                                checked={property_type === 'Townhouse'}
+                                onChange={this.handleType}
+                                />
+                            </Form.Group>
+                            <Button onClick={ (event) => 
+                            this.handleEdit(event, house.id)}>Add Property</Button>
+                        </Form>
+                        </Modal.Content>
+                        </Modal>
+                        </Button.Group>
                         </Card> 
                         ))
                     } 
