@@ -12,6 +12,13 @@ export class UserEdit extends React.Component {
     }
 
     //
+    // Handles the form edits.
+    //
+    handleChange = (e) => {
+        this.setState({ [e.target.name] : e.target.value});
+    }
+
+    //
     // Go back to admin page.
     //
     handleBack = (event) => {
