@@ -30,7 +30,7 @@ public class User {
     @NotNull
     private int type;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<RealEstate> realEstate = new HashSet<>();
 
     public Set<RealEstate> getRealEstate() {

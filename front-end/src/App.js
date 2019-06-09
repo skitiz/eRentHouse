@@ -10,6 +10,8 @@ import { Register } from './components/Register'
 import { Admin } from './components/Admin'
 import {LandingPage} from './components/LandingPage'
 import { AdminDashboard } from './components/AdminDashboard';
+import { PropertyEdit } from './components/PropertyEdit';
+import { UserEdit } from './components/UserEdit';
 
 
 class App extends React.Component {
@@ -165,6 +167,7 @@ class App extends React.Component {
         axios.delete("http://localhost:8080/api/homes/" + id)
         .then(response => {
             console.log("successfully deleted");
+            window.location.reload();
         })
     }
 
@@ -186,6 +189,18 @@ class App extends React.Component {
         }).then( response => {
             console.log("Property edited.");
         })
+    }
+
+    //
+    // Delete the user.
+    //
+    didUserDelete = (id) => {
+        axios.delete('http://localhost:8080/api/user/' + id).then(
+            response => {
+                console.log("Successfully deleted.");
+                window.location.reload();
+            }
+        )
     }
 
 
@@ -219,7 +234,17 @@ class App extends React.Component {
                             (props) => <Admin adminLogin = {this.isAdmin} {...props} />
                     }></Route>
                     <Route path ="/admindashboard" render = {
-                            (props) => <AdminDashboard adminLogin = {this.isAdmin} {...props} />
+                            (props) => <AdminDashboard 
+                            onUserDelete={this.didUserDelete}
+                            onDelete={this.didDeleteProperty} {...props} />
+                    }></Route>
+                    <Route path = "/editProperty" render = {
+                        (props) => <PropertyEdit onEdit = {this.didEditProperty}
+                        {...props} />
+                    }></Route>
+                    <Route path = "/editUser" render = {
+                        (props) => <UserEdit onUserEdit = {this.didEditUser}
+                        {...props}/>
                     }></Route>
                 </Switch>
                 </Container>

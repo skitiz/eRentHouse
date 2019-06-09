@@ -2,6 +2,7 @@ package com.aku.cogent.controllers;
 
 
 import com.aku.cogent.components.EmailServiceImpl;
+import com.aku.cogent.model.RealEstate;
 import com.aku.cogent.model.User;
 import com.aku.cogent.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +100,21 @@ public class UserAPI {
         userService.deleteById(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        Optional<User> userOptional = userService.findById(id);
+
+        if(!userOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        user.setId(id);
+        user.setType(userOptional.get().getType());
+        userService.save(user);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
