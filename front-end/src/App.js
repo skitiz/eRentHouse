@@ -9,6 +9,7 @@ import { Container } from 'semantic-ui-react';
 import { Register } from './components/Register'
 import { Admin } from './components/Admin'
 import {LandingPage} from './components/LandingPage'
+import { AdminDashboard } from './components/AdminDashboard';
 
 
 class App extends React.Component {
@@ -108,7 +109,13 @@ class App extends React.Component {
         axios.get('http://localhost:8080/api/user/' + url).then(
             response => {
                 console.log(response.data);
-                alert('Welcome back Mr. Stark.');
+                axios.get('http://localhost:8080/api/user').then(
+                    response => {
+                        this.props.history.push({
+                            pathname: "/admindashboard",
+                            state: {data: response.data}});
+                    }
+                )
             })
             .catch( error => {
                 alert('Invalid login credentials for admin.')
@@ -208,11 +215,12 @@ class App extends React.Component {
                     <Route path ="/register" render= {
                         (props) => <Register registerUser={this.handleRegister} {...props}/>
                     }></Route>
-                    <Route>
-                        <Route path ="/admin" render = {
+                    <Route path ="/admin" render = {
                             (props) => <Admin adminLogin = {this.isAdmin} {...props} />
-                        }></Route>
-                    </Route>
+                    }></Route>
+                    <Route path ="/admindashboard" render = {
+                            (props) => <AdminDashboard adminLogin = {this.isAdmin} {...props} />
+                    }></Route>
                 </Switch>
                 </Container>
                 </div>
