@@ -9,7 +9,7 @@ class User extends React.Component {
         this.state = {
             data: '',
             realEstate: '',
-            homeOwner: '',
+            homeOwner: true,
             streetAddress: '',
             id: '',
             isLogin: true,
@@ -43,8 +43,8 @@ class User extends React.Component {
              (response) => {
                  this.setState({data: response.data})
                  this.setState({realEstate: response.data.realEstate});
-                 if(response.data.type === 0){
-                     this.setState({homeOwner: 'True'});
+                 if(response.data.realEstate.length === 0){
+                     this.setState({homeOwner: false});
                  }
                  console.log(this.state.realEstate);
                  this.setState({id: response.data.id})
@@ -256,10 +256,51 @@ class User extends React.Component {
         localStorage.clear();
         this.props.history.push("/");
     }
-    
 
-    render() {
-        var userdetails = (
+    userDetails = () => {
+        const { property_type } = this.state;
+
+        var view = (
+            <Button icon='plus' onClick={this.onButtonClick}/>
+        );
+
+        var newProperty = (
+            <Modal trigger={<Button>Add a new House</Button>} size='small'>
+                            <Modal.Header>Add a new house</Modal.Header>
+                        <Modal.Content>
+                        <Form size='small'>
+                            <Form.Group>
+                                <Form.Input name="streetAddress" onChange = {this.handleChange}
+                                placeholder="Street Address" />
+                                <Form.Input name="city" placeholder="City"
+                                onChange = {this.handleChange} />
+                                <Form.Input name="state" placeholder="State"
+                                onChange={this.handleChange} />
+                                <Form.Input name="price" placeholder ="$"
+                                onChange={this.handleChange} />
+                            </Form.Group>
+                            <Form.Group inline>
+                                <Form.Radio
+                                label='Apartment'
+                                property_type = 'Apartment'
+                                checked={property_type === 'Apartment'}
+                                onChange={this.handleType}
+                                />
+                                <Form.Radio
+                                label='Townhouse'
+                                property_type= 'Townhouse'
+                                checked={property_type === 'Townhouse'}
+                                onChange={this.handleType}
+                                />
+                            </Form.Group>
+                            <Button onClick={ (event) => 
+                            this.handleNewProperty(event)}>Add Property</Button>
+                        </Form>
+                        </Modal.Content>
+                        </Modal>
+        )
+        
+        return  (
             <div>
           <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
               <Grid.Column style = {{ maxWidth: 900 }}>
@@ -271,7 +312,6 @@ class User extends React.Component {
                      <Table.HeaderCell>Name</Table.HeaderCell>
                      <Table.HeaderCell>Username</Table.HeaderCell>
                      <Table.HeaderCell>Email</Table.HeaderCell>
-                     <Table.HeaderCell>Owns Home?</Table.HeaderCell>
                      <Table.HeaderCell>View Properties</Table.HeaderCell>
                  </Table.Header>
                  <Table.Body>
@@ -279,8 +319,12 @@ class User extends React.Component {
                      <Table.Cell>{this.state.data.name}</Table.Cell>
                      <Table.Cell>{this.state.data.username}</Table.Cell>
                      <Table.Cell>{this.state.data.email}</Table.Cell>
-                     <Table.Cell>{this.state.homeOwner}</Table.Cell>
-                     <Table.Cell><Button icon='plus' onClick={this.onButtonClick}/></Table.Cell>
+                     <Table.Cell>
+                         {
+                             this.state.homeOwner ? view : newProperty
+                            
+                        }
+                        </Table.Cell>
                      </Table.Row>
                  </Table.Body>
         </Table>
@@ -288,6 +332,11 @@ class User extends React.Component {
           </Grid>
           </div>
         );
+
+    }
+    
+
+    render() {
 
         return (
             <div>
@@ -301,7 +350,7 @@ class User extends React.Component {
                     </Container>
             </Menu>
             <div>
-            {this.state.isLogin ? userdetails : false}
+            {this.state.isLogin ? this.userDetails() : false}
             {this.state.isProperty ? this.propertyPage() : false}
             </div>
             </div>
