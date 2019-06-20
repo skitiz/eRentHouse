@@ -1,20 +1,42 @@
 import React from 'react';
+import axios from 'axios';
 import { Button, Container, Header, Menu, Segment } from 'semantic-ui-react'
+
 
 export class LandingPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-
+            data: ''
         }
+    }
+
+
+    componentDidMount = () => {
+        axios.get('http://localhost:8080/api/homes').then(
+            response => {
+                this.setState({ data: response.data });
+    //             this.props.history.push({
+    //                 pathname: "/search",
+    //             state: { data: response.data}})
+            }
+        );
     }
 
     handleLogin = (event) => {
         this.props.history.push("/login");
     }
 
+    onSearchClick = (event) => {
+        this.props.history.push({
+            pathname: "/search",
+        state: {data: this.state.data}});
+    }
+
+
     render() {
+        // this.getData();
         return (
             <div className="App">
             <Segment inverted vertical textAlign= "center">
@@ -24,7 +46,7 @@ export class LandingPage extends React.Component {
                     </Header>
                     <Menu borderless compact inverted>
                         <Menu.Item active>Home</Menu.Item>
-                        <Menu.Item>Browse</Menu.Item>
+                        <Menu.Item onClick={this.onSearchClick}>Browse</Menu.Item>
                         <Menu.Item onClick={this.handleLogin}>Login</Menu.Item>
                     </Menu>
                 </Container>

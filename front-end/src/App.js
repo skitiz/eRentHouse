@@ -12,6 +12,7 @@ import {LandingPage} from './components/LandingPage'
 import { AdminDashboard } from './components/AdminDashboard';
 import { PropertyEdit } from './components/PropertyEdit';
 import { UserEdit } from './components/UserEdit';
+import { SearchCity } from './components/SearchCity';
 
 
 class App extends React.Component {
@@ -245,6 +246,9 @@ class App extends React.Component {
                     <Route path = "/editUser" render = {
                         (props) => <UserEdit onUserEdit = {this.didEditUser}
                         {...props}/>
+                    }></Route>
+                    <Route path = "/search" render = {
+                        (props) => <SearchCity {...props}/>
                     }></Route>
                 </Switch>
                 </Container>
